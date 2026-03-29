@@ -29,19 +29,14 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.valueproviders.ConstantFloat;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.behavior.*;
-import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -53,12 +48,10 @@ import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.tslat.smartbrainlib.api.core.BrainActivityGroup;
 import net.tslat.smartbrainlib.api.core.SmartBrainProvider;
-import net.tslat.smartbrainlib.api.core.behaviour.ExtendedBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.OneRandomBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.attack.AnimatableMeleeAttack;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.look.LookAtTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.misc.BreedWithPartner;
-import net.tslat.smartbrainlib.api.core.behaviour.custom.misc.CustomBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowParent;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.MoveToWalkTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.path.SetWalkTargetToAttackTarget;
@@ -70,13 +63,10 @@ import net.tslat.smartbrainlib.api.core.sensor.ExtendedSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.InWaterSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyLivingEntitySensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyPlayersSensor;
-import net.tslat.smartbrainlib.util.BrainUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 public class Seagull extends FlyingBirdEntity implements AnimatedEntity, BirdBrain<Seagull> {
     public static final Identifier ID = Util.id("seagull");
@@ -213,7 +203,7 @@ public class Seagull extends FlyingBirdEntity implements AnimatedEntity, BirdBra
 
     @Override
     public boolean canHunt(LivingEntity target) {
-        return target.getType().is(CustomTags.SEAGULL_HUNT_TARGET);
+        return target.is(CustomTags.SEAGULL_HUNT_TARGET);
     }
 
     @Override
@@ -281,12 +271,12 @@ public class Seagull extends FlyingBirdEntity implements AnimatedEntity, BirdBra
     }
 
     @Override
-    protected @NotNull Brain.Provider<@NotNull Seagull> brainProvider() {
-        return new SmartBrainProvider<>(this);
+    protected Brain<Seagull> makeBrain(Brain.Packed packedBrain) {
+        return new SmartBrainProvider<Seagull>(false).makeBrain(this, packedBrain);
     }
 
     @Override
-    public List<? extends ExtendedSensor<? extends Seagull>> getSensors() {
+    public List<? extends ExtendedSensor<Seagull>> getSensors() {
         return ObjectArrayList.of(
                 new NearbyLivingEntitySensor<>(),
                 new NearbyPlayersSensor<>(),
@@ -300,7 +290,7 @@ public class Seagull extends FlyingBirdEntity implements AnimatedEntity, BirdBra
     }
 
     @Override
-    public BrainActivityGroup<? extends Seagull> getCoreTasks() {
+    public BrainActivityGroup<Seagull> getCoreTasks() {
         return BirdBrain.coreActivity(
                 FlightBehaviours.stopFalling(),
                 new SetAttackTarget<>(),
@@ -310,14 +300,14 @@ public class Seagull extends FlyingBirdEntity implements AnimatedEntity, BirdBra
     }
 
     @Override
-    public BrainActivityGroup<? extends Seagull> getAvoidTasks() {
+    public BrainActivityGroup<Seagull> getAvoidTasks() {
         return BirdBrain.avoidActivity(
                 CustomBehaviours.setAvoidEntityWalkTarget()
         );
     }
 
     @Override
-    public BrainActivityGroup<? extends Seagull> getFightTasks() {
+    public BrainActivityGroup<Seagull> getFightTasks() {
         return BirdBrain.fightActivity(
                 new InvalidateAttackTarget<>(),
                 FlightBehaviours.startFlying(),
@@ -328,7 +318,7 @@ public class Seagull extends FlyingBirdEntity implements AnimatedEntity, BirdBra
     }
 
     @Override
-    public BrainActivityGroup<? extends Seagull> getForageTasks() {
+    public BrainActivityGroup<Seagull> getForageTasks() {
         return BirdBrain.forageActivity(
                 new OneRandomBehaviour<>(
                         Pair.of(
@@ -346,7 +336,7 @@ public class Seagull extends FlyingBirdEntity implements AnimatedEntity, BirdBra
     }
 
     @Override
-    public BrainActivityGroup<? extends Seagull> getIdleTasks() {
+    public BrainActivityGroup<Seagull> getIdleTasks() {
         return BirdBrain.idleActivity(
                 new BreedWithPartner<>(),
                 new FollowParent<>(),
@@ -362,14 +352,14 @@ public class Seagull extends FlyingBirdEntity implements AnimatedEntity, BirdBra
     }
 
     @Override
-    public BrainActivityGroup<? extends Seagull> getPickupFoodTasks() {
+    public BrainActivityGroup<Seagull> getPickupFoodTasks() {
         return BirdBrain.pickupFoodActivity(
                 CompositeBehaviours.tryPickUpFood()
         );
     }
 
     @Override
-    public BrainActivityGroup<? extends Seagull> getRestTasks() {
+    public BrainActivityGroup<Seagull> getRestTasks() {
         return BirdBrain.restActivity(
                 CompositeBehaviours.trySetWaterRestTarget(),
                 CustomBehaviours.idleIfInWater()

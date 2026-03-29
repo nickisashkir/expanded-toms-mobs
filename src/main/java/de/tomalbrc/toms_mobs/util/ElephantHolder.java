@@ -76,7 +76,7 @@ public class ElephantHolder<T extends LivingEntity & AnimatedEntity> extends Liv
         super.onSyncedDataUpdated(key, object);
 
         if (key.equals(LivingEntityAccessor.getDATA_HEALTH_ID())) {
-            this.collisionElement.getDataTracker().set(LivingEntityAccessor.getDATA_HEALTH_ID(), (Float)object);
+            this.collisionElement.getSyncedData().set(LivingEntityAccessor.getDATA_HEALTH_ID(), (Float)object);
         }
     }
 
@@ -84,6 +84,6 @@ public class ElephantHolder<T extends LivingEntity & AnimatedEntity> extends Liv
     protected void onDataLoaded() {
         super.onDataLoaded();
 
-        this.collisionElement.getDataTracker().set(LivingEntityAccessor.getDATA_HEALTH_ID(), this.parent.getEntityData().get(LivingEntityAccessor.getDATA_HEALTH_ID()));
+        this.collisionElement.getSyncedData().set(LivingEntityAccessor.getDATA_HEALTH_ID(), this.parent.getEntityData().get(LivingEntityAccessor.getDATA_HEALTH_ID()));
     }
 }

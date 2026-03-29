@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 
 public class AnimationStateList implements Iterable<AnimationState> {
     private final List<Entry> entries;
-    private final RandomSource random = RandomSource.createNewThreadLocalInstance();
+    private final RandomSource random = RandomSource.createThreadLocalInstance();
 
     public AnimationStateList() {
         this.entries = new ObjectArrayList<>();

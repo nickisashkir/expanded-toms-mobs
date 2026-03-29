@@ -42,7 +42,7 @@ public final class BirdUtils {
 
     public static boolean isDaytime(BirdEntity entity) {
         Level world = entity.level();
-        return !world.dimensionType().hasFixedTime() && (world.getDayTime() < 12500 || world.getDayTime() > 23000);
+        return !world.dimensionType().hasFixedTime() && (world.getDefaultClockTime() < 12500 || world.getDefaultClockTime() > 23000);
     }
 
     public static boolean shouldLandAtDestination(FlyingBirdEntity bird, BlockPos destination) {

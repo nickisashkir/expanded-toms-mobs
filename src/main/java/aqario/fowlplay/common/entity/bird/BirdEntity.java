@@ -28,6 +28,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -63,8 +64,8 @@ public abstract class BirdEntity extends Animal {
         this.idleAnimationChance = this.random.nextInt(this.getIdleAnimationDelay()) - this.getIdleAnimationDelay();
         this.callChance = this.random.nextInt(this.getCallDelay()) - this.getCallDelay();
         this.songChance = this.random.nextInt(this.getSongDelay()) - this.getSongDelay();
-        this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0f);
-        this.setPathfindingMalus(PathType.DANGER_POWDER_SNOW, -1.0f);
+        this.setPathfindingMalus(PathType.DAMAGING, -1.0f);
+        this.setPathfindingMalus(PathType.DAMAGING_IN_NEIGHBOR, -1.0f);
         this.setPathfindingMalus(PathType.COCOA, -1.0f);
         this.setPathfindingMalus(PathType.FENCE, -1.0f);
     }
@@ -305,14 +306,15 @@ public abstract class BirdEntity extends Animal {
                             .xRot(-this.getXRot() * (float) (Math.PI / 180.0))
                             .yRot(-this.getYRot() * (float) (Math.PI / 180.0));
                     if (this.level() instanceof ServerLevel serverLevel) serverLevel.sendParticles(
-                            new ItemParticleOption(ParticleTypes.ITEM, food),
+                            new ItemParticleOption(ParticleTypes.ITEM, ItemStackTemplate.fromNonEmptyStack(food)),
                             this.getX() + this.getLookAngle().x / 2.0,
                             this.getY(),
                             this.getZ() + this.getLookAngle().z / 2.0,
-                            1, 0.25,
+                            1,
                             vec3d.x,
                             vec3d.y + 0.05,
-                            vec3d.z
+                            vec3d.z,
+                            0.25
                     );
                 }
             }

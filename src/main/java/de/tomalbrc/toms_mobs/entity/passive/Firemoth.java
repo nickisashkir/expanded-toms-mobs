@@ -64,7 +64,7 @@ public class Firemoth extends Animal implements AnimatedEntity, FlyingAnimal {
 
         this.moveControl = new FlyingMoveControl(this, 0, false);
 
-        this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
+        this.setPathfindingMalus(PathType.DAMAGING, -1.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
         this.setPathfindingMalus(PathType.WATER_BORDER, 16.0F);
         this.setPathfindingMalus(PathType.COCOA, -1.0F);

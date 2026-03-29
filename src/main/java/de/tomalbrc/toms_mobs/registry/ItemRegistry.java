@@ -4,7 +4,7 @@ import de.tomalbrc.toms_mobs.TomsMobs;
 import de.tomalbrc.toms_mobs.item.ElephantHarnessItem;
 import de.tomalbrc.toms_mobs.item.TexturedPolymerItem;
 import de.tomalbrc.toms_mobs.util.Util;
-import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
+import eu.pb4.polymer.core.api.item.PolymerCreativeModeTabUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
@@ -35,7 +35,7 @@ public class ItemRegistry {
                 .displayItems((parameters, output) -> CUSTOM_ITEMS.forEach((key, value) -> output.accept(value)))
                 .build();
 
-        PolymerItemGroupUtils.registerPolymerItemGroup(Util.id("items"), ITEM_GROUP);
+        PolymerCreativeModeTabUtils.registerPolymerCreativeModeTab(Util.id("items"), ITEM_GROUP);
     }
 
     static public <T extends Item> T register(Identifier identifier, Function<Item.Properties, T> function) {

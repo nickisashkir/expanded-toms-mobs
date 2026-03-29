@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.14-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -15,23 +15,24 @@ repositories {
     maven { url 'https://maven.nucleoid.xyz' }
     maven { url 'https://maven.blamejared.com' }
     maven { url 'https://dl.cloudsmith.io/public/tslat/sbl/maven/' }
+    mavenLocal()
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation("eu.pb4:polymer-resource-pack:${project.polymer_version}")
-    modImplementation("eu.pb4:polymer-resource-pack-extras:${project.polymer_version}")
-    modImplementation("eu.pb4:polymer-core:${project.polymer_version}")
-    modImplementation("eu.pb4:polymer-virtual-entity:${project.polymer_version}")
-    modImplementation("eu.pb4:polymer-autohost:${project.polymer_version}")
+    implementation("eu.pb4:polymer-resource-pack:${project.polymer_version}")
+    implementation("eu.pb4:polymer-resource-pack-extras:${project.polymer_version}")
+    implementation("eu.pb4:polymer-core:${project.polymer_version}")
+    implementation("eu.pb4:polymer-virtual-entity:${project.polymer_version}")
+    implementation("eu.pb4:polymer-autohost:${project.polymer_version}")
 
-    modImplementation include("de.tomalbrc:blockbench-import-library:${project.bil_version}")
+    implementation include("de.tomalbrc:blockbench-import-library:${project.bil_version}")
 
-    modImplementation include("net.tslat.smartbrainlib:SmartBrainLib-fabric-${project.minecraft_version}:${project.sbl_version}")
+    //SmartBrainLib-fabric-26.1-snapshot-11-1.16.11.jar
+    implementation include("net.tslat.smartbrainlib:SmartBrainLib-fabric-26.1-snapshot-11:1.16.11")
 }
 
 processResources {
@@ -56,7 +57,7 @@ jar {
 
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release.set(21)
+    it.options.release.set(25)
 }
 
 java {

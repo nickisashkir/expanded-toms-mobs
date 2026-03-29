@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface BirdBrain<E extends BirdEntity & BirdBrain<E>> extends SmartBrainOwner<E> {
+public interface BirdBrain<T extends BirdEntity & BirdBrain<T>> extends SmartBrainOwner<T> {
     @SafeVarargs
     static <T extends BirdEntity & BirdBrain<T>> BrainActivityGroup<T> coreActivity(Behavior<? super T>... behaviours) {
         return new BrainActivityGroup<T>(Activity.CORE).priority(0).behaviours(behaviours);
@@ -71,38 +71,38 @@ public interface BirdBrain<E extends BirdEntity & BirdBrain<E>> extends SmartBra
         return new BrainActivityGroup<T>(FowlPlayActivities.SOAR.get()).priority(10).behaviours(behaviours);
     }
 
-    default BrainActivityGroup<? extends E> getAvoidTasks() {
+    default BrainActivityGroup<T> getAvoidTasks() {
         return BrainActivityGroup.empty();
     }
 
-    default BrainActivityGroup<? extends E> getDeliverTasks() {
+    default BrainActivityGroup<T> getDeliverTasks() {
         return BrainActivityGroup.empty();
     }
 
-    default BrainActivityGroup<? extends E> getForageTasks() {
+    default BrainActivityGroup<T> getForageTasks() {
         return BrainActivityGroup.empty();
     }
 
-    default BrainActivityGroup<? extends E> getPerchTasks() {
+    default BrainActivityGroup<T> getPerchTasks() {
         return BrainActivityGroup.empty();
     }
 
-    default BrainActivityGroup<? extends E> getPickupFoodTasks() {
+    default BrainActivityGroup<T> getPickupFoodTasks() {
         return BrainActivityGroup.empty();
     }
 
-    default BrainActivityGroup<? extends E> getRestTasks() {
+    default BrainActivityGroup<T> getRestTasks() {
         return BrainActivityGroup.empty();
     }
 
-    default BrainActivityGroup<? extends E> getSoarTasks() {
+    default BrainActivityGroup<T> getSoarTasks() {
         return BrainActivityGroup.empty();
     }
 
     @Override
-    default Map<Activity, BrainActivityGroup<? extends E>> getAdditionalTasks() {
-        Object2ObjectOpenHashMap<Activity, BrainActivityGroup<? extends E>> taskList = new Object2ObjectOpenHashMap<>();
-        BrainActivityGroup<? extends E> activityGroup;
+    default Map<Activity, BrainActivityGroup<T>> getAdditionalTasks() {
+        Object2ObjectOpenHashMap<Activity, BrainActivityGroup<T>> taskList = new Object2ObjectOpenHashMap<>();
+        BrainActivityGroup<T> activityGroup;
 
         // core is already handled
         if (!(activityGroup = this.getDeliverTasks()).getBehaviours().isEmpty()) {
