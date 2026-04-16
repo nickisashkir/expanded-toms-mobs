@@ -2,7 +2,7 @@
 
 A fork of [tomalbrc/toms-mobs](https://github.com/tomalbrc/toms-mobs) (MIT), extended for use on [The Remnants](https://theremnants.gg/) with new behaviors, systems, and a much larger mob roster.
 
-Runs entirely **server-side** via [Polymer](https://modrinth.com/mod/polymer) - players join with a vanilla client, no mods required.
+Runs entirely **server-side** via [Polymer](https://modrinth.com/mod/polymer) - players join with a vanilla client, no mods required. 
 
 ---
 
