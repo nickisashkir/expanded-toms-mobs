@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:item", "name": "minecraft:wheat_seeds", "weight": 5 },
+        { "type": "minecraft:item", "name": "minecraft:pumpkin_seeds", "weight": 3 },
+        { "type": "minecraft:item", "name": "minecraft:oak_sapling", "weight": 2 }
+      ]
+    }
+  ]
+}

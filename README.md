@@ -143,3 +143,50 @@ The entities are available under the namespace `toms_mobs` (`toms_mobs:elephant`
 
 The mod uses the Bird brain from the mod [Fowl-Play](https://github.com/aqariio/Fowl-Play) by aqariio.
 You can see the original MIT license of that project in LICENSE-fowl-play.md
+
+---
+
+# About This Fork
+
+This is a fork of [tomalbrc/toms-mobs](https://github.com/tomalbrc/toms-mobs) (MIT),
+extended for use on [The Remnants](https://theremnants.gg/) with substantial additions:
+
+- Taming and bonding systems for canine / feline mobs
+- Breeding with heart particles and baby growth timers (feed a baby a golden dandelion to freeze its growth)
+- Auto-species nametags with proximity gating, and persistent custom names across baby -> adult growth
+- Floating health hearts that appear when you aim at a mob
+- NPC framework with per-NPC idle animations
+- Named patrol routes for NPCs, with JSON persistence
+- Custom spawn ticker with layered population caps and per-player opt-out (`/toggleanimals`)
+- Expanded mob roster with new AI behaviors (allay-style fetch, curl defense, flee-to-water, day/night owl activity, cat chase goals, meerkat lookouts, etc.)
+- Admin commands under `/tomsmobs` for spawn control and patrol management
+
+## Art credit
+
+**Most** of the mob models used by this fork are from **Nog's Menagerie**, a premium
+Blockbench model pack by Nog ([shop page](https://mcmodels.net/vendors/24/nog)). Huge
+shout-out — the packs are fantastic and absolutely worth picking up if you're building
+anything similar. Additional models are from **Scenes** and other licensed Blockbench
+creators. The remaining models (butterfly, capybara, elephant, lobster, mantaray,
+possum, seagull, snake, tuna, and a few others) come from the original upstream
+toms-mobs by Tom Albrecht.
+
+## Assets are NOT included in this repo
+
+The added mob `.bbmodel` files are **not** committed here because they are licensed
+content and cannot be redistributed.
+
+**To build / run this mod with full visuals you must:**
+
+1. Purchase the corresponding packs from Nog's shop: https://mcmodels.net/vendors/24/nog
+2. Drop the purchased `.bbmodel` files into `src/main/resources/model/toms_mobs/`
+3. Build with `./gradlew build`
+
+Without the purchased assets the mod will still compile, but any mob whose model is
+missing will render as an invisible entity.
+
+## Credit
+
+- Original mod by **Tom Albrecht** ([tomalbrc](https://github.com/tomalbrc)) — MIT
+- Models by **Nog** (Nog's Menagerie) and **Scenes**
+- This fork is maintained by **[nickisashkir](https://github.com/nickisashkir)** for [The Remnants](https://theremnants.gg/)

@@ -5,7 +5,6 @@ import de.tomalbrc.bil.core.holder.entity.living.LivingEntityHolder;
 import de.tomalbrc.bil.core.holder.wrapper.DisplayWrapper;
 import de.tomalbrc.bil.core.model.Model;
 import de.tomalbrc.bil.core.model.Pose;
-import de.tomalbrc.toms_mobs.entity.passive.Seagull;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,7 +26,7 @@ public class MovementRotatingHolder<T extends LivingEntity & AnimatedEntity> ext
 
     @Override
     protected void applyPose(ServerPlayer serverPlayer, Pose pose, DisplayWrapper display) {
-        if ((this.parent instanceof Seagull seagull && !seagull.isFlying()) || !init) {
+        if (!init) {
             super.applyPose(serverPlayer, pose, display);
             init = true;
             return;

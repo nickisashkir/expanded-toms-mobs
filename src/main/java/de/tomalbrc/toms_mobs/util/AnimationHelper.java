@@ -2,8 +2,7 @@ package de.tomalbrc.toms_mobs.util;
 
 import de.tomalbrc.bil.api.AnimatedHolder;
 import de.tomalbrc.bil.api.Animator;
-import de.tomalbrc.toms_mobs.entity.passive.Capybara;
-import de.tomalbrc.toms_mobs.entity.passive.Seagull;
+import de.tomalbrc.bil.core.holder.entity.EntityHolder;
 import net.minecraft.world.entity.LivingEntity;
 
 public class AnimationHelper {
@@ -11,24 +10,6 @@ public class AnimationHelper {
         updateWalkAnimation(entity, holder, 0);
     }
 
-    public static void updateBirdAnimation(Seagull entity, AnimatedHolder holder) {
-        Animator animator = holder.getAnimator();
-        if (!entity.isFlying()) {
-            if (entity.walkAnimation.isMoving() && entity.walkAnimation.speed() > 0.02) {
-                animator.playAnimation("walk", 0);
-                animator.pauseAnimation("idle");
-                animator.pauseAnimation("fly");
-            } else {
-                animator.pauseAnimation("walk");
-                animator.pauseAnimation("fly");
-                animator.playAnimation("idle", 0, true);
-            }
-        } else {
-            animator.playAnimation("fly", 0);
-            animator.pauseAnimation("idle");
-            animator.pauseAnimation("walk");
-        }
-    }
 
     public static void updateWalkAnimation(LivingEntity entity, AnimatedHolder holder, int priority) {
         Animator animator = holder.getAnimator();
@@ -79,42 +60,15 @@ public class AnimationHelper {
         }
     }
 
-    public static void updateCapybaraWalkAnimation(Capybara entity, AnimatedHolder holder) {
-        if (entity.isRelaxing()) return;
-
-        Animator animator = holder.getAnimator();
-        if (entity.isInWater()) {
-            if ((entity.getDeltaMovement().length() > 0.05 || entity.walkAnimation.speed() > 0.02)) {
-                animator.pauseAnimation("idle");
-                animator.pauseAnimation("relax");
-                animator.pauseAnimation("walk");
-                animator.playAnimation("swim");
-            } else {
-                animator.pauseAnimation("swim");
-                animator.pauseAnimation("walk");
-                animator.pauseAnimation("relax");
-                animator.playAnimation("idle");
-            }
-        } else {
-            if (entity.walkAnimation.isMoving() && entity.walkAnimation.speed() > 0.02) {
-                animator.pauseAnimation("idle");
-                animator.pauseAnimation("relax");
-                animator.pauseAnimation("swim");
-                animator.playAnimation("walk");
-            } else {
-                animator.pauseAnimation("swim");
-                animator.pauseAnimation("walk");
-                animator.pauseAnimation("relax");
-                animator.pauseAnimation("idle");
-                animator.playAnimation(entity.isRelaxing() ? "relax":"idle");
-            }
-        }
-    }
 
     public static void updateHurtColor(LivingEntity entity, AnimatedHolder holder) {
         if (entity.hurtTime > 0 || entity.deathTime > 0)
             holder.setColor(0xff7e7e);
         else
             holder.clearColor();
+
+        if (holder instanceof EntityHolder<?> entityHolder) {
+            HealthDisplayHelper.update(entity, entityHolder);
+        }
     }
 }

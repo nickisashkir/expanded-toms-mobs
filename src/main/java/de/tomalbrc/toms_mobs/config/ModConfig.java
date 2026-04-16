@@ -33,6 +33,15 @@ public class ModConfig {
     public List<Identifier> disabledMobs = new ObjectArrayList<>();
     public boolean noAdditionalRaidMobs = true;
 
+    @SerializedName("custom_spawn_ticker")
+    public boolean customSpawnTicker = true;
+
+    @SerializedName("custom_spawn_ticker_interval_ticks")
+    public int customSpawnTickerIntervalTicks = 24000;
+
+    @SerializedName("custom_spawn_ticker_soft_cap_per_type")
+    public int customSpawnTickerSoftCapPerType = 12;
+
     public static ModConfig getInstance() {
         if (instance == null) {
             load();
@@ -66,7 +75,7 @@ public class ModConfig {
         }
     }
 
-    static void save() {
+    public static void save() {
         try (FileOutputStream stream = new FileOutputStream(CONFIG_FILE_PATH.toFile())) {
             stream.write(gson.toJson(instance).getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {

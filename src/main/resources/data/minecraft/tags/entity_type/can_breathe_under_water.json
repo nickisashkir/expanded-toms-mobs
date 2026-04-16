@@ -1,10 +1,25 @@
 {
   "replace": false,
   "values": [
-    "toms_mobs:capybara",
-    "toms_mobs:mantaray",
-    "toms_mobs:tuna",
-    "toms_mobs:lobster",
-    "toms_mobs:penguin"
+    "toms_mobs:jellyfish_blue",
+    "toms_mobs:jellyfish_golden",
+    "toms_mobs:jellyfish_fusion",
+    "toms_mobs:jellyfish_orange",
+    "toms_mobs:jellyfish_pink",
+    "toms_mobs:jellyfish_white",
+    "toms_mobs:seal_arctic",
+    "toms_mobs:seal_harbor",
+    "toms_mobs:seal_monk",
+    "toms_mobs:seahorse_black",
+    "toms_mobs:seahorse_blue",
+    "toms_mobs:seahorse_green",
+    "toms_mobs:seahorse_purple",
+    "toms_mobs:seahorse_red",
+    "toms_mobs:duck_brown",
+    "toms_mobs:duck_mallard",
+    "toms_mobs:duck_white",
+    "toms_mobs:duckling",
+    "toms_mobs:ice_penguin",
+    "toms_mobs:ice_penguin_baby"
   ]
 }

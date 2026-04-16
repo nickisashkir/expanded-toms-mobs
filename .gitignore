@@ -28,3 +28,21 @@ run/
 .idea/
 build/
 .gradle/
+
+# --- Proprietary assets (licensed from third-party Blockbench creators) ---
+# These .bbmodel files are licensed per-server only and MUST NOT be redistributed.
+# See the "Assets are NOT included" section of README.md for where to buy them.
+src/main/resources/model/toms_mobs/*.bbmodel
+
+# Keep the upstream-shipped bbmodels that Tom originally committed:
+!src/main/resources/model/toms_mobs/lobster.bbmodel
+!src/main/resources/model/toms_mobs/mantaray.bbmodel
+!src/main/resources/model/toms_mobs/possum.bbmodel
+!src/main/resources/model/toms_mobs/seagull.bbmodel
+!src/main/resources/model/toms_mobs/tuna.bbmodel
+
+# Local model conversion scratch folder (contains proprietary source files)
+modelsforconversion/
+
+# Claude Code local config
+.claude/
