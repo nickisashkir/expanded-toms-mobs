@@ -15,6 +15,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,6 +33,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public abstract class AbstractCat extends TamableAnimal implements AnimatedEntity {
     private final EntityHolder<? extends AbstractCat> holder;
@@ -39,8 +44,25 @@ public abstract class AbstractCat extends TamableAnimal implements AnimatedEntit
     private boolean wasSitting = false;
     private boolean independent = false;
     private int homeX = 0, homeY = 0, homeZ = 0;
+    private final Set<UUID> coOwners = new HashSet<>();
 
     public boolean isIndependent() { return independent; }
+
+    public Set<UUID> getCoOwners() { return coOwners; }
+    public void addCoOwner(UUID id) { coOwners.add(id); }
+    public void removeCoOwner(UUID id) { coOwners.remove(id); }
+
+    public boolean isPrimaryOwner(Player player) {
+        LivingEntity owner = this.getOwner();
+        return owner != null && owner.getUUID().equals(player.getUUID());
+    }
+
+    @Override
+    public boolean isOwnedBy(@NotNull LivingEntity entity) {
+        if (super.isOwnedBy(entity)) return true;
+        if (entity instanceof Player p) return coOwners.contains(p.getUUID());
+        return false;
+    }
 
     @NotNull
     public static AttributeSupplier.Builder createAttributes() {
@@ -151,8 +173,8 @@ public abstract class AbstractCat extends TamableAnimal implements AnimatedEntit
             return InteractionResult.SUCCESS;
         }
 
-        // Owner shift+right-click with empty hand toggles independent mode
-        if (this.getOwner() instanceof Player owner && owner.equals(player) && player.isSecondaryUseActive() && itemInHand.isEmpty()) {
+        // Any owner (primary or co-owner) shift+right-click with empty hand toggles independent mode
+        if (this.isOwnedBy(player) && player.isSecondaryUseActive() && itemInHand.isEmpty()) {
             independent = !independent;
             if (independent) {
                 homeX = this.getBlockX();
@@ -177,8 +199,8 @@ public abstract class AbstractCat extends TamableAnimal implements AnimatedEntit
             return InteractionResult.SUCCESS;
         }
 
-        // Owner toggles sit
-        if (this.getOwner() instanceof Player owner && owner.equals(player) && !player.isSecondaryUseActive()) {
+        // Any owner toggles sit. Primary owner or co-owners both allowed.
+        if (this.isOwnedBy(player) && !player.isSecondaryUseActive()) {
             boolean sit = !this.isOrderedToSit();
             this.setOrderedToSit(sit);
             this.setInSittingPose(sit);
@@ -198,11 +220,19 @@ public abstract class AbstractCat extends TamableAnimal implements AnimatedEntit
         output.putInt("HomeX", homeX);
         output.putInt("HomeY", homeY);
         output.putInt("HomeZ", homeZ);
+        output.putString("CoOwners", coOwners.stream().map(UUID::toString).collect(Collectors.joining(",")));
     }
 
     @Override
     protected void readAdditionalSaveData(@NotNull net.minecraft.world.level.storage.ValueInput input) {
         super.readAdditionalSaveData(input);
+        coOwners.clear();
+        String coOwnersStr = input.getStringOr("CoOwners", "");
+        if (!coOwnersStr.isEmpty()) {
+            for (String s : coOwnersStr.split(",")) {
+                try { coOwners.add(UUID.fromString(s)); } catch (IllegalArgumentException ignored) {}
+            }
+        }
         independent = input.getBooleanOr("Independent", false);
         homeX = input.getIntOr("HomeX", 0);
         homeY = input.getIntOr("HomeY", 0);

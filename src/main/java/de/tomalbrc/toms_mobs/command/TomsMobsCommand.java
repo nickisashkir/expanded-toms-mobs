@@ -88,6 +88,21 @@ public class TomsMobsCommand {
         // Player-facing opt-out command (no OP required)
         dispatcher.register(Commands.literal("toggleanimals")
                 .executes(TomsMobsCommand::toggleOptOut));
+
+        // Player-facing shared ownership commands
+        dispatcher.register(Commands.literal("petshare")
+                .then(Commands.literal("add")
+                        .then(Commands.argument("player", StringArgumentType.word())
+                                .executes(ctx -> petShareAdd(ctx.getSource(), StringArgumentType.getString(ctx, "player")))))
+                .then(Commands.literal("remove")
+                        .then(Commands.argument("player", StringArgumentType.word())
+                                .executes(ctx -> petShareRemove(ctx.getSource(), StringArgumentType.getString(ctx, "player")))))
+                .then(Commands.literal("list")
+                        .executes(TomsMobsCommand::petShareList)));
+
+        dispatcher.register(Commands.literal("pettransfer")
+                .then(Commands.argument("player", StringArgumentType.word())
+                        .executes(ctx -> petTransfer(ctx.getSource(), StringArgumentType.getString(ctx, "player")))));
     }
 
     private static void send(CommandSourceStack source, Component message) {
@@ -368,5 +383,134 @@ public class TomsMobsCommand {
             if (entry.type() == type) return true;
         }
         return false;
+    }
+
+    // --- Shared pet ownership ---
+
+    private static net.minecraft.world.entity.LivingEntity findNearestOwnedPet(ServerPlayer player) {
+        AABB box = player.getBoundingBox().inflate(5.0);
+        net.minecraft.world.entity.LivingEntity closest = null;
+        double closestDist = Double.MAX_VALUE;
+        for (Entity e : player.level().getEntities((Entity) null, box, ent -> ent instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog || ent instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat)) {
+            boolean isPrimary;
+            if (e instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog d) isPrimary = d.isPrimaryOwner(player);
+            else if (e instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) isPrimary = c.isPrimaryOwner(player);
+            else continue;
+            if (!isPrimary) continue;
+            double d2 = e.distanceToSqr(player);
+            if (d2 < closestDist) { closestDist = d2; closest = (net.minecraft.world.entity.LivingEntity) e; }
+        }
+        return closest;
+    }
+
+    private static int petShareAdd(CommandSourceStack source, String targetName) {
+        if (!(source.getEntity() instanceof ServerPlayer player)) {
+            source.sendFailure(Component.literal("Must be run by a player"));
+            return 0;
+        }
+        ServerPlayer target = source.getServer().getPlayerList().getPlayerByName(targetName);
+        if (target == null) {
+            send(source, Component.literal("Player '" + targetName + "' is not online.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (target.getUUID().equals(player.getUUID())) {
+            send(source, Component.literal("You can't add yourself as a co-owner.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        net.minecraft.world.entity.LivingEntity pet = findNearestOwnedPet(player);
+        if (pet == null) {
+            send(source, Component.literal("No pet you own within 5 blocks.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog d) d.addCoOwner(target.getUUID());
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) c.addCoOwner(target.getUUID());
+        send(source, Component.literal("Added " + targetName + " as a co-owner.").withStyle(ChatFormatting.GREEN));
+        target.sendSystemMessage(Component.literal(player.getName().getString() + " added you as co-owner of their pet.").withStyle(ChatFormatting.GREEN));
+        return 1;
+    }
+
+    private static int petShareRemove(CommandSourceStack source, String targetName) {
+        if (!(source.getEntity() instanceof ServerPlayer player)) {
+            source.sendFailure(Component.literal("Must be run by a player"));
+            return 0;
+        }
+        net.minecraft.world.entity.LivingEntity pet = findNearestOwnedPet(player);
+        if (pet == null) {
+            send(source, Component.literal("No pet you own within 5 blocks.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        ServerPlayer online = source.getServer().getPlayerList().getPlayerByName(targetName);
+        if (online == null) {
+            send(source, Component.literal("Player '" + targetName + "' must be online to remove co-ownership.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        java.util.UUID targetId = online.getUUID();
+        if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog d) d.removeCoOwner(targetId);
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) c.removeCoOwner(targetId);
+        send(source, Component.literal("Removed " + targetName + " as a co-owner.").withStyle(ChatFormatting.YELLOW));
+        return 1;
+    }
+
+    private static int petShareList(com.mojang.brigadier.context.CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+        if (!(source.getEntity() instanceof ServerPlayer player)) {
+            source.sendFailure(Component.literal("Must be run by a player"));
+            return 0;
+        }
+        net.minecraft.world.entity.LivingEntity pet = findNearestOwnedPet(player);
+        if (pet == null) {
+            send(source, Component.literal("No pet you own within 5 blocks.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        java.util.Set<java.util.UUID> coOwners;
+        if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog d) coOwners = d.getCoOwners();
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) coOwners = c.getCoOwners();
+        else return 0;
+        send(source, Component.literal("=== Pet owners ===").withStyle(ChatFormatting.GOLD));
+        send(source, Component.literal("Primary: " + player.getName().getString()).withStyle(ChatFormatting.AQUA));
+        if (coOwners.isEmpty()) {
+            send(source, Component.literal("No co-owners.").withStyle(ChatFormatting.GRAY));
+        } else {
+            for (java.util.UUID id : coOwners) {
+                ServerPlayer online = source.getServer().getPlayerList().getPlayer(id);
+                String name = online != null ? online.getName().getString() : id.toString();
+                send(source, Component.literal(" - " + name).withStyle(ChatFormatting.AQUA));
+            }
+        }
+        return 1;
+    }
+
+    private static int petTransfer(CommandSourceStack source, String targetName) {
+        if (!(source.getEntity() instanceof ServerPlayer player)) {
+            source.sendFailure(Component.literal("Must be run by a player"));
+            return 0;
+        }
+        ServerPlayer target = source.getServer().getPlayerList().getPlayerByName(targetName);
+        if (target == null) {
+            send(source, Component.literal("Player '" + targetName + "' must be online to receive a pet transfer.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (target.getUUID().equals(player.getUUID())) {
+            send(source, Component.literal("You can't transfer to yourself.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        net.minecraft.world.entity.LivingEntity pet = findNearestOwnedPet(player);
+        if (pet == null) {
+            send(source, Component.literal("No pet you own within 5 blocks.").withStyle(ChatFormatting.RED));
+            return 0;
+        }
+        if (pet instanceof net.minecraft.world.entity.TamableAnimal tam) {
+            tam.tame(target);
+            if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog d) {
+                d.removeCoOwner(target.getUUID());
+                d.addCoOwner(player.getUUID());
+            } else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) {
+                c.removeCoOwner(target.getUUID());
+                c.addCoOwner(player.getUUID());
+            }
+            send(source, Component.literal("Primary ownership transferred to " + targetName + ". You are now a co-owner.").withStyle(ChatFormatting.GREEN));
+            target.sendSystemMessage(Component.literal(player.getName().getString() + " transferred their pet to you. You are now the primary owner.").withStyle(ChatFormatting.GREEN));
+        }
+        return 1;
     }
 }
