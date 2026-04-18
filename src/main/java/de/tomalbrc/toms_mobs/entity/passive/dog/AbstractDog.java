@@ -47,6 +47,7 @@ public abstract class AbstractDog extends TamableAnimal implements AnimatedEntit
     private boolean independent = false;
     private int homeX = 0, homeY = 0, homeZ = 0;
     private final Set<UUID> coOwners = new HashSet<>();
+    private UUID lastCommandedBy = null;
 
     public boolean isIndependent() { return independent; }
     public net.minecraft.core.BlockPos getHome() { return new net.minecraft.core.BlockPos(homeX, homeY, homeZ); }
@@ -56,8 +57,8 @@ public abstract class AbstractDog extends TamableAnimal implements AnimatedEntit
     public void removeCoOwner(UUID id) { coOwners.remove(id); }
 
     public boolean isPrimaryOwner(Player player) {
-        LivingEntity owner = this.getOwner();
-        return owner != null && owner.getUUID().equals(player.getUUID());
+        LivingEntity primaryOwner = super.getOwner();
+        return primaryOwner != null && primaryOwner.getUUID().equals(player.getUUID());
     }
 
     @Override
@@ -65,6 +66,16 @@ public abstract class AbstractDog extends TamableAnimal implements AnimatedEntit
         if (super.isOwnedBy(entity)) return true;
         if (entity instanceof Player p) return coOwners.contains(p.getUUID());
         return false;
+    }
+
+    @Nullable
+    @Override
+    public LivingEntity getOwner() {
+        if (lastCommandedBy != null && this.level() instanceof ServerLevel sl) {
+            Player p = sl.getServer().getPlayerList().getPlayer(lastCommandedBy);
+            if (p != null && p.isAlive() && this.distanceToSqr(p) < 4096) return p;
+        }
+        return super.getOwner();
     }
 
     @NotNull
@@ -97,7 +108,7 @@ public abstract class AbstractDog extends TamableAnimal implements AnimatedEntit
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
 
-        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new DefendAnyOwnerGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
         // Wild dogs chase squirrels
@@ -181,6 +192,7 @@ public abstract class AbstractDog extends TamableAnimal implements AnimatedEntit
 
         // Any owner (primary or co-owner) shift+right-click with empty hand toggles independent mode
         if (this.isOwnedBy(player) && player.isSecondaryUseActive() && itemInHand.isEmpty()) {
+            lastCommandedBy = player.getUUID();
             independent = !independent;
             if (independent) {
                 homeX = this.getBlockX();
@@ -207,6 +219,7 @@ public abstract class AbstractDog extends TamableAnimal implements AnimatedEntit
 
         // Any owner toggles sit. Primary owner or co-owners both allowed.
         if (this.isOwnedBy(player) && !player.isSecondaryUseActive()) {
+            lastCommandedBy = player.getUUID();
             boolean sit = !this.isOrderedToSit();
             this.setOrderedToSit(sit);
             this.setInSittingPose(sit);
