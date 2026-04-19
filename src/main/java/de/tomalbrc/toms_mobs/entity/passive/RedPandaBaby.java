@@ -77,6 +77,7 @@ public class RedPandaBaby extends Animal implements AnimatedEntity {
     @Override protected void readAdditionalSaveData(@NotNull ValueInput input) { super.readAdditionalSaveData(input); babyAge = BabyGrowthHelper.loadAge(input); ageFrozen = BabyGrowthHelper.loadFrozen(input); }
     @Override public boolean isFood(ItemStack i) { return false; }
     @Nullable @Override public AgeableMob getBreedOffspring(@NotNull ServerLevel l, @NotNull AgeableMob m) { return null; }
+    @Override protected void dropCustomDeathLoot(@NotNull ServerLevel l, @NotNull DamageSource s, boolean r) { super.dropCustomDeathLoot(l, s, r); if (this.random.nextInt(4) == 0) this.spawnAtLocation(l, new ItemStack(net.minecraft.world.item.Items.BAMBOO, 1)); }
     @Override protected SoundEvent getHurtSound(@NotNull DamageSource d) { return SoundEvents.FOX_HURT; }
     @Override protected SoundEvent getDeathSound() { return SoundEvents.FOX_DEATH; }
     @Override protected @NotNull PathNavigation createNavigation(@NotNull Level l) { return new SmoothGroundNavigation(this, l); }
