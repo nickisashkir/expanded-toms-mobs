@@ -124,6 +124,7 @@ public class MobRegistry {
 
     // === Red Panda ===
     public static final EntityType<@NotNull RedPanda> RED_PANDA = register(RedPanda.ID, FabricEntityType.Builder.createMob(RedPanda::new, MobCategory.CREATURE, x -> x.defaultAttributes(RedPanda::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.7f, 0.6f));
+    public static final EntityType<@NotNull RedPandaBaby> RED_PANDA_BABY = register(RedPandaBaby.ID, FabricEntityType.Builder.createMob(RedPandaBaby::new, MobCategory.CREATURE, x -> x.defaultAttributes(RedPandaBaby::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.4f, 0.4f));
 
     // === Meerkat ===
     public static final EntityType<@NotNull Meerkat> MEERKAT = register(Meerkat.ID, FabricEntityType.Builder.createMob(Meerkat::new, MobCategory.CREATURE, x -> x.defaultAttributes(Meerkat::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.4f, 0.6f));
@@ -215,8 +216,11 @@ public class MobRegistry {
     public static final EntityType<@NotNull BlueTit> BLUE_TIT = register(BlueTit.ID, FabricEntityType.Builder.createMob(BlueTit::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractWinterBird::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.3f));
     public static final EntityType<@NotNull Partridge> PARTRIDGE = register(Partridge.ID, FabricEntityType.Builder.createMob(Partridge::new, MobCategory.CREATURE, x -> x.defaultAttributes(Partridge::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.4f, 0.4f));
     public static final EntityType<@NotNull Hedgehog> HEDGEHOG = register(Hedgehog.ID, FabricEntityType.Builder.createMob(Hedgehog::new, MobCategory.CREATURE, x -> x.defaultAttributes(Hedgehog::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.4f, 0.3f));
+    public static final EntityType<@NotNull HedgehogBaby> HEDGEHOG_BABY = register(HedgehogBaby.ID, FabricEntityType.Builder.createMob(HedgehogBaby::new, MobCategory.CREATURE, x -> x.defaultAttributes(HedgehogBaby::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.25f, 0.2f));
     public static final EntityType<@NotNull Reindeer> REINDEER = register(Reindeer.ID, FabricEntityType.Builder.createMob(Reindeer::new, MobCategory.CREATURE, x -> x.defaultAttributes(Reindeer::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(1.0f, 1.4f));
+    public static final EntityType<@NotNull ReindeerBaby> REINDEER_BABY = register(ReindeerBaby.ID, FabricEntityType.Builder.createMob(ReindeerBaby::new, MobCategory.CREATURE, x -> x.defaultAttributes(ReindeerBaby::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.6f, 0.85f));
     public static final EntityType<@NotNull FennecFox> FENNEC_FOX = register(FennecFox.ID, FabricEntityType.Builder.createMob(FennecFox::new, MobCategory.CREATURE, x -> x.defaultAttributes(FennecFox::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.5f, 0.4f));
+    public static final EntityType<@NotNull FennecFoxBaby> FENNEC_FOX_BABY = register(FennecFoxBaby.ID, FabricEntityType.Builder.createMob(FennecFoxBaby::new, MobCategory.CREATURE, x -> x.defaultAttributes(FennecFoxBaby::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.25f));
 
     public static final EntityType<@NotNull Giraffe> GIRAFFE = register(Giraffe.ID, FabricEntityType.Builder.createMob(Giraffe::new, MobCategory.CREATURE, x -> x.defaultAttributes(Giraffe::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(1.5f, 3.5f));
     public static final EntityType<@NotNull GiraffeBaby> GIRAFFE_BABY = register(GiraffeBaby.ID, FabricEntityType.Builder.createMob(GiraffeBaby::new, MobCategory.CREATURE, x -> x.defaultAttributes(GiraffeBaby::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.8f, 1.8f));
@@ -346,6 +350,7 @@ public class MobRegistry {
 
         // === Red Panda ===
         addSpawnEgg(RED_PANDA, Items.FOX_SPAWN_EGG);
+        addSpawnEgg(RED_PANDA_BABY, Items.FOX_SPAWN_EGG);
 
         // === Meerkat ===
         addSpawnEgg(MEERKAT, Items.RABBIT_SPAWN_EGG);
@@ -429,8 +434,11 @@ public class MobRegistry {
         addSpawnEgg(BLUE_TIT, Items.PARROT_SPAWN_EGG);
         addSpawnEgg(PARTRIDGE, Items.CHICKEN_SPAWN_EGG);
         addSpawnEgg(HEDGEHOG, Items.RABBIT_SPAWN_EGG);
+        addSpawnEgg(HEDGEHOG_BABY, Items.RABBIT_SPAWN_EGG);
         addSpawnEgg(REINDEER, Items.COW_SPAWN_EGG);
+        addSpawnEgg(REINDEER_BABY, Items.COW_SPAWN_EGG);
         addSpawnEgg(FENNEC_FOX, Items.FOX_SPAWN_EGG);
+        addSpawnEgg(FENNEC_FOX_BABY, Items.FOX_SPAWN_EGG);
         addSpawnEgg(GIRAFFE, Items.COW_SPAWN_EGG);
         addSpawnEgg(GIRAFFE_BABY, Items.COW_SPAWN_EGG);
         addSpawnEgg(ZEBRA, Items.HORSE_SPAWN_EGG);

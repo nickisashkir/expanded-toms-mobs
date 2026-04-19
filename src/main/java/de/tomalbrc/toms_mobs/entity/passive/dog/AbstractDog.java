@@ -131,6 +131,14 @@ public abstract class AbstractDog extends TamableAnimal implements AnimatedEntit
             }
         }
 
+        // Tamed dogs occasionally howl at night (~once per 2.5min per dog during night hours)
+        if (!this.level().isClientSide() && this.isTame() && this.tickCount % 40 == 0) {
+            long t = this.level().getOverworldClockTime() % 24000;
+            if (t >= 13000 && t <= 23000 && this.random.nextInt(75) == 0) {
+                this.playSound(SoundEvents.FOX_AMBIENT, 1.2F, 0.4F + this.random.nextFloat() * 0.15F);
+            }
+        }
+
         if (this.tickCount % 2 == 0) {
             if (this.isOrderedToSit()) {
                 if (!wasSitting) {

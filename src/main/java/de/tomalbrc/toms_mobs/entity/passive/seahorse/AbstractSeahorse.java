@@ -81,7 +81,74 @@ public abstract class AbstractSeahorse extends AbstractFish implements AnimatedE
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new AquaticPanicGoal(this, 1.2));
-        this.goalSelector.addGoal(1, new PathfinderMobSwimGoal(this, 1));
+        this.goalSelector.addGoal(1, new CuriousOfPlayerGoal(this));
+        this.goalSelector.addGoal(2, new PathfinderMobSwimGoal(this, 1));
+    }
+
+    /**
+     * Seahorse curiosity. When a player enters 8 blocks while seahorse is in water,
+     * 50% chance to trigger a curious state lasting 30-60 seconds. During curiosity
+     * the seahorse swims toward the player but stops 3 blocks short. Then cooldown.
+     */
+    private static class CuriousOfPlayerGoal extends net.minecraft.world.entity.ai.goal.Goal {
+        private final AbstractSeahorse seahorse;
+        private Player target;
+        private int endTick = 0;
+        private int cooldownUntil = 0;
+
+        CuriousOfPlayerGoal(AbstractSeahorse seahorse) {
+            this.seahorse = seahorse;
+            this.setFlags(java.util.EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (seahorse.tickCount < cooldownUntil) return false;
+            if (!seahorse.isInWater()) return false;
+            Player near = seahorse.level().getNearestPlayer(seahorse, 8.0);
+            if (near == null || !near.isAlive()) return false;
+            // 50% chance to take interest
+            if (seahorse.random.nextInt(2) != 0) {
+                // Avoid rolling again immediately
+                cooldownUntil = seahorse.tickCount + 100;
+                return false;
+            }
+            target = near;
+            // 30-60 seconds of interest
+            endTick = seahorse.tickCount + 600 + seahorse.random.nextInt(601);
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            if (target == null || !target.isAlive()) return false;
+            if (seahorse.tickCount > endTick) return false;
+            if (!seahorse.isInWater()) return false;
+            if (seahorse.distanceToSqr(target) > 400) return false; // player got too far away
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            if (target == null) return;
+            seahorse.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            double distSqr = seahorse.distanceToSqr(target);
+            if (distSqr > 9.0) { // stop 3 blocks short
+                if (seahorse.getNavigation().isDone()) {
+                    seahorse.getNavigation().moveTo(target, 1.0);
+                }
+            } else {
+                seahorse.getNavigation().stop();
+            }
+        }
+
+        @Override
+        public void stop() {
+            target = null;
+            // 30-60 second cooldown before potentially re-engaging
+            cooldownUntil = seahorse.tickCount + 600 + seahorse.random.nextInt(601);
+            seahorse.getNavigation().stop();
+        }
     }
 
     @Override

@@ -67,6 +67,17 @@ public abstract class AbstractWinterBird extends Animal implements AnimatedEntit
     @Override
     public void tick() {
         super.tick();
+
+        // Sing at dawn (~ticks 22500-24000 / 0-500). Short call burst, rare chance.
+        if (!this.level().isClientSide() && this.tickCount % 40 == 0 && callTicks <= 0) {
+            long t = this.level().getOverworldClockTime() % 24000;
+            boolean isDawn = t >= 22500 || t <= 500;
+            if (isDawn && this.random.nextInt(30) == 0) {
+                callTicks = 30;
+                this.playSound(SoundEvents.PARROT_AMBIENT, 0.4F, 1.3F + this.random.nextFloat() * 0.4F);
+            }
+        }
+
         if (this.tickCount % 2 == 0) {
             if (callTicks > 0) {
                 callTicks -= 2;
