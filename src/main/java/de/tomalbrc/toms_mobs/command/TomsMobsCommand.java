@@ -391,10 +391,18 @@ public class TomsMobsCommand {
         AABB box = player.getBoundingBox().inflate(5.0);
         net.minecraft.world.entity.LivingEntity closest = null;
         double closestDist = Double.MAX_VALUE;
-        for (Entity e : player.level().getEntities((Entity) null, box, ent -> ent instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog || ent instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat)) {
+        for (Entity e : player.level().getEntities((Entity) null, box, ent ->
+                ent instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog
+                || ent instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat
+                || ent instanceof de.tomalbrc.toms_mobs.entity.passive.RedPanda
+                || ent instanceof de.tomalbrc.toms_mobs.entity.passive.Raccoon
+                || ent instanceof de.tomalbrc.toms_mobs.entity.passive.Raven)) {
             boolean isPrimary;
             if (e instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog d) isPrimary = d.isPrimaryOwner(player);
             else if (e instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) isPrimary = c.isPrimaryOwner(player);
+            else if (e instanceof de.tomalbrc.toms_mobs.entity.passive.RedPanda rp) isPrimary = rp.isPrimaryOwner(player);
+            else if (e instanceof de.tomalbrc.toms_mobs.entity.passive.Raccoon rc) isPrimary = rc.isPrimaryOwner(player);
+            else if (e instanceof de.tomalbrc.toms_mobs.entity.passive.Raven rv) isPrimary = rv.isPrimaryOwner(player);
             else continue;
             if (!isPrimary) continue;
             double d2 = e.distanceToSqr(player);
@@ -424,6 +432,9 @@ public class TomsMobsCommand {
         }
         if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog d) d.addCoOwner(target.getUUID());
         else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) c.addCoOwner(target.getUUID());
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.RedPanda rp) rp.addCoOwner(target.getUUID());
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.Raccoon rc) rc.addCoOwner(target.getUUID());
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.Raven rv) rv.addCoOwner(target.getUUID());
         send(source, Component.literal("Added " + targetName + " as a co-owner.").withStyle(ChatFormatting.GREEN));
         target.sendSystemMessage(Component.literal(player.getName().getString() + " added you as co-owner of their pet.").withStyle(ChatFormatting.GREEN));
         return 1;
@@ -447,6 +458,9 @@ public class TomsMobsCommand {
         java.util.UUID targetId = online.getUUID();
         if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog d) d.removeCoOwner(targetId);
         else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) c.removeCoOwner(targetId);
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.RedPanda rp) rp.removeCoOwner(targetId);
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.Raccoon rc) rc.removeCoOwner(targetId);
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.Raven rv) rv.removeCoOwner(targetId);
         send(source, Component.literal("Removed " + targetName + " as a co-owner.").withStyle(ChatFormatting.YELLOW));
         return 1;
     }
@@ -465,6 +479,9 @@ public class TomsMobsCommand {
         java.util.Set<java.util.UUID> coOwners;
         if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.dog.AbstractDog d) coOwners = d.getCoOwners();
         else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) coOwners = c.getCoOwners();
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.RedPanda rp) coOwners = rp.getCoOwners();
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.Raccoon rc) coOwners = rc.getCoOwners();
+        else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.Raven rv) coOwners = rv.getCoOwners();
         else return 0;
         send(source, Component.literal("=== Pet owners ===").withStyle(ChatFormatting.GOLD));
         send(source, Component.literal("Primary: " + player.getName().getString()).withStyle(ChatFormatting.AQUA));
@@ -507,6 +524,15 @@ public class TomsMobsCommand {
             } else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.cat.AbstractCat c) {
                 c.removeCoOwner(target.getUUID());
                 c.addCoOwner(player.getUUID());
+            } else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.RedPanda rp) {
+                rp.removeCoOwner(target.getUUID());
+                rp.addCoOwner(player.getUUID());
+            } else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.Raccoon rc) {
+                rc.removeCoOwner(target.getUUID());
+                rc.addCoOwner(player.getUUID());
+            } else if (pet instanceof de.tomalbrc.toms_mobs.entity.passive.Raven rv) {
+                rv.removeCoOwner(target.getUUID());
+                rv.addCoOwner(player.getUUID());
             }
             send(source, Component.literal("Primary ownership transferred to " + targetName + ". You are now a co-owner.").withStyle(ChatFormatting.GREEN));
             target.sendSystemMessage(Component.literal(player.getName().getString() + " transferred their pet to you. You are now the primary owner.").withStyle(ChatFormatting.GREEN));

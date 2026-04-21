@@ -57,6 +57,8 @@
 
   {"mob": "toms_mobs:reindeer", "biomes": ["minecraft:snowy_taiga", "minecraft:snowy_plains", "minecraft:grove", "#c:is_snowy", "terralith:alpine_highlands", "terralith:shield", "terralith:alpine_grove", "terralith:siberian_taiga", "terralith:siberian_grove", "terralith:snowy_shield", "terralith:wintry_forest", "terralith:wintry_lowlands", "terralith:frozen_cliffs", "terralith:ice_marsh"], "weight": 2, "min-group": 1, "max-group": 3, "max-nearby": 4, "baby": "toms_mobs:reindeer_baby", "baby-chance": 0.3},
 
+  {"mob": "toms_mobs:raven", "biomes": ["#c:is_forest", "#c:is_plains", "#c:is_savanna", "#c:is_jungle", "#c:is_taiga", "#c:is_desert", "#c:is_swamp", "#c:is_badlands", "minecraft:meadow", "minecraft:cherry_grove"], "weight": 1, "min-group": 1, "max-group": 2, "max-nearby": 3},
+
   {"mob": "toms_mobs:ice_penguin", "biomes": ["minecraft:snowy_plains", "minecraft:snowy_beach", "minecraft:frozen_ocean", "minecraft:ice_spikes", "terralith:alpine_highlands", "terralith:frozen_cliffs", "terralith:glacial_chasm", "terralith:snowy_badlands"], "weight": 1, "min-group": 1, "max-group": 3, "max-nearby": 4, "baby": "toms_mobs:ice_penguin_baby", "baby-chance": 0.3},
 
   {"mob": "toms_mobs:sloth_brown", "biomes": ["#c:is_jungle", "minecraft:bamboo_jungle", "minecraft:sparse_jungle", "terralith:tropical_jungle", "terralith:rocky_jungle", "terralith:amethyst_rainforest", "terralith:cloud_forest"], "weight": 2, "min-group": 1, "max-group": 1, "max-nearby": 2},
