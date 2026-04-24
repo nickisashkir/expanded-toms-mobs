@@ -115,6 +115,33 @@
   "entity.toms_mobs.reindeer_baby": "Reindeer Calf",
   "entity.toms_mobs.raven": "Raven",
 
+  "entity.toms_mobs.beaver": "Beaver",
+  "entity.toms_mobs.jerboa": "Jerboa",
+  "entity.toms_mobs.koala": "Koala",
+  "entity.toms_mobs.snapping_turtle": "Snapping Turtle",
+
+  "entity.toms_mobs.rat_albino": "Albino Rat",
+  "entity.toms_mobs.rat_brown": "Brown Rat",
+  "entity.toms_mobs.rat_gray": "Gray Rat",
+
+  "entity.toms_mobs.budgie_blue_spangle": "Blue Spangle Budgie",
+  "entity.toms_mobs.budgie_cobalt": "Cobalt Budgie",
+  "entity.toms_mobs.budgie_gray": "Gray Budgie",
+  "entity.toms_mobs.budgie_green": "Green Budgie",
+  "entity.toms_mobs.budgie_green_spangle": "Green Spangle Budgie",
+  "entity.toms_mobs.budgie_light_green": "Light Green Budgie",
+  "entity.toms_mobs.budgie_olive": "Olive Budgie",
+  "entity.toms_mobs.budgie_sky_blue": "Sky Blue Budgie",
+  "entity.toms_mobs.budgie_white": "White Budgie",
+  "entity.toms_mobs.budgie_yellow": "Yellow Budgie",
+
+  "entity.toms_mobs.toucan_toco": "Toco Toucan",
+  "entity.toms_mobs.toucan_keel_billed": "Keel-Billed Toucan",
+  "entity.toms_mobs.toucan_channel_billed": "Channel-Billed Toucan",
+
+  "entity.toms_mobs.goose_canada": "Canada Goose",
+  "entity.toms_mobs.goose_white": "White Goose",
+
   "entity.toms_mobs.ice_penguin": "Ice Penguin",
   "entity.toms_mobs.ice_penguin_baby": "Baby Ice Penguin",
 

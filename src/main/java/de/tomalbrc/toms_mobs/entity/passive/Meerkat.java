@@ -37,6 +37,8 @@ public class Meerkat extends Animal implements AnimatedEntity {
     public static final Model MODEL = Util.loadBbModel(ID);
     private final EntityHolder<Meerkat> holder;
     private int peekTicks = 0;
+    private int forageTicks = 0;
+    private boolean huddling = false;
 
     @NotNull
     public static AttributeSupplier.Builder createAttributes() {
@@ -73,6 +75,72 @@ public class Meerkat extends Animal implements AnimatedEntity {
     @Override
     public void tick() {
         super.tick();
+
+        if (!this.level().isClientSide()) {
+            // Freeze navigation while peeking (sentry stands still)
+            if (peekTicks > 0) {
+                this.getNavigation().stop();
+            }
+
+            if (this.tickCount % 20 == 0 && this.getTarget() == null) {
+                boolean spiderNear = !this.level().getEntitiesOfClass(Spider.class,
+                        this.getBoundingBox().inflate(10)).isEmpty();
+
+                // Alarm caller: spider within 10 blocks? Trigger panic on all kin nearby.
+                if (spiderNear) {
+                    huddling = false;
+                    for (Meerkat m : this.level().getEntitiesOfClass(Meerkat.class,
+                            this.getBoundingBox().inflate(12))) {
+                        m.peekTicks = 0;
+                        m.forageTicks = 0;
+                    }
+                }
+
+                long timeOfDay = this.level().getOverworldClockTime() % 24000;
+                boolean isNight = timeOfDay >= 13000 && timeOfDay <= 23000;
+
+                // Lookout: idle meerkat with kin nearby occasionally stands sentry (longer than before)
+                if (!spiderNear && peekTicks <= 0 && forageTicks <= 0 && !huddling
+                        && this.getNavigation().isDone()) {
+                    int kin = this.level().getEntitiesOfClass(Meerkat.class,
+                            this.getBoundingBox().inflate(12), m -> m != this).size();
+                    if (kin >= 2 && this.tickCount % 100 == 0 && this.random.nextInt(4) == 0) {
+                        peekTicks = 200 + this.random.nextInt(200); // 10-20 seconds
+                    }
+                }
+
+                // Forager: random dig/search pauses during the day
+                if (!spiderNear && !isNight && peekTicks <= 0 && forageTicks <= 0 && !huddling
+                        && this.getNavigation().isDone()
+                        && this.tickCount % 120 == 0 && this.random.nextInt(8) == 0) {
+                    forageTicks = 80 + this.random.nextInt(80); // 4-8 seconds pause
+                    this.getNavigation().stop();
+                }
+
+                // Night huddle: find nearest kin, path toward them. Broken by spider.
+                if (!spiderNear && isNight && peekTicks <= 0 && this.tickCount % 60 == 0) {
+                    Meerkat nearest = null;
+                    double nearestDist = Double.MAX_VALUE;
+                    for (Meerkat m : this.level().getEntitiesOfClass(Meerkat.class,
+                            this.getBoundingBox().inflate(16), m -> m != this)) {
+                        double d = this.distanceToSqr(m);
+                        if (d < nearestDist) { nearestDist = d; nearest = m; }
+                    }
+                    if (nearest != null && nearestDist > 4.0 && this.getNavigation().isDone()) {
+                        this.getNavigation().moveTo(nearest, 0.7);
+                        huddling = true;
+                    } else if (nearest != null && nearestDist <= 4.0) {
+                        this.getNavigation().stop();
+                        huddling = true;
+                    }
+                } else if (!isNight) {
+                    huddling = false;
+                }
+            }
+
+            if (forageTicks > 0) forageTicks--;
+        }
+
         if (this.tickCount % 2 == 0) {
             if (peekTicks > 0) {
                 peekTicks -= 2;
@@ -82,15 +150,6 @@ public class Meerkat extends Animal implements AnimatedEntity {
             } else {
                 this.holder.getAnimator().pauseAnimation("peek");
                 AnimationHelper.updateWalkAnimation(this, this.holder);
-
-                // Lookout: if standing still and other meerkats nearby, occasionally peek
-                if (!this.walkAnimation.isMoving() && this.tickCount % 100 == 0) {
-                    int nearby = this.level().getEntitiesOfClass(Meerkat.class,
-                            this.getBoundingBox().inflate(12), m -> m != this).size();
-                    if (nearby >= 2 && this.random.nextInt(3) == 0) {
-                        peekTicks = 60 + this.random.nextInt(60);
-                    }
-                }
             }
             AnimationHelper.updateHurtColor(this, this.holder);
         }

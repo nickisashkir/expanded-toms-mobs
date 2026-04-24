@@ -57,7 +57,12 @@ public class HealthDisplayHelper {
             if (entity.getCustomName() == null) {
                 entity.setCustomName(defaultName);
             }
-            double heartHeight = Math.max(1.7, entity.getBbHeight() * 2.0 + 0.3);
+            double heartHeight;
+            if (entity instanceof HealthDisplayOverride ov) {
+                heartHeight = ov.getHealthDisplayYOffset();
+            } else {
+                heartHeight = Math.max(1.7, entity.getBbHeight() * 2.0 + 0.3);
+            }
             this.display.setOffset(new Vec3(0, heartHeight, 0));
             holder.addAdditionalDisplay(this.display);
             attached = true;

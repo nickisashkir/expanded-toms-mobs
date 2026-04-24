@@ -59,6 +59,36 @@
 
   {"mob": "toms_mobs:raven", "biomes": ["#c:is_forest", "#c:is_plains", "#c:is_savanna", "#c:is_jungle", "#c:is_taiga", "#c:is_desert", "#c:is_swamp", "#c:is_badlands", "minecraft:meadow", "minecraft:cherry_grove"], "weight": 1, "min-group": 1, "max-group": 2, "max-nearby": 3},
 
+  {"mob": "toms_mobs:beaver", "biomes": ["#c:is_swamp", "minecraft:river", "minecraft:mangrove_swamp", "terralith:moonlight_grove", "terralith:alpine_grove", "terralith:lush_valley", "terralith:blooming_valley"], "weight": 1, "min-group": 1, "max-group": 2, "max-nearby": 2},
+
+  {"mob": "toms_mobs:jerboa", "biomes": ["#c:is_desert", "#c:is_badlands", "terralith:gravel_desert", "terralith:ancient_sands", "terralith:desert_canyon", "terralith:desert_oasis", "terralith:desert_spires", "terralith:lush_desert", "terralith:sandstone_valley", "terralith:arid_highlands", "terralith:red_oasis"], "weight": 2, "min-group": 1, "max-group": 3, "max-nearby": 4},
+
+  {"mob": "toms_mobs:koala", "biomes": ["#c:is_jungle", "minecraft:bamboo_jungle", "terralith:tropical_jungle", "terralith:amethyst_rainforest", "terralith:rocky_jungle", "terralith:cloud_forest"], "weight": 1, "min-group": 1, "max-group": 1, "max-nearby": 2},
+
+  {"mob": "toms_mobs:snapping_turtle", "biomes": ["#c:is_swamp", "minecraft:mangrove_swamp", "minecraft:river", "terralith:moonlight_grove", "terralith:lush_valley"], "weight": 1, "min-group": 1, "max-group": 1, "max-nearby": 2},
+
+  {"mob": "toms_mobs:rat_albino", "biomes": ["#c:is_swamp", "minecraft:lush_caves", "minecraft:dripstone_caves", "terralith:arid_highlands", "terralith:warped_mesa"], "weight": 1, "min-group": 1, "max-group": 3, "max-nearby": 4},
+  {"mob": "toms_mobs:rat_brown", "biomes": ["#c:is_swamp", "minecraft:mangrove_swamp", "minecraft:lush_caves", "minecraft:dripstone_caves", "terralith:lush_valley", "terralith:moonlight_grove"], "weight": 2, "min-group": 1, "max-group": 3, "max-nearby": 4},
+  {"mob": "toms_mobs:rat_gray", "biomes": ["#c:is_swamp", "#c:is_taiga", "minecraft:lush_caves", "minecraft:dripstone_caves", "terralith:shield", "terralith:moonlight_grove"], "weight": 2, "min-group": 1, "max-group": 3, "max-nearby": 4},
+
+  {"mob": "toms_mobs:budgie_blue_spangle", "biomes": ["#c:is_plains", "minecraft:meadow", "terralith:blooming_valley", "terralith:lavender_valley"], "weight": 1, "min-group": 2, "max-group": 4, "max-nearby": 5},
+  {"mob": "toms_mobs:budgie_cobalt", "biomes": ["#c:is_plains", "minecraft:meadow", "terralith:blooming_valley", "terralith:lavender_valley"], "weight": 1, "min-group": 2, "max-group": 4, "max-nearby": 5},
+  {"mob": "toms_mobs:budgie_gray", "biomes": ["#c:is_savanna", "#c:is_badlands", "terralith:arid_highlands", "terralith:yellowstone"], "weight": 1, "min-group": 2, "max-group": 4, "max-nearby": 5},
+  {"mob": "toms_mobs:budgie_green", "biomes": ["#c:is_plains", "#c:is_savanna", "minecraft:meadow", "terralith:blooming_valley"], "weight": 2, "min-group": 2, "max-group": 4, "max-nearby": 5},
+  {"mob": "toms_mobs:budgie_green_spangle", "biomes": ["#c:is_plains", "#c:is_savanna", "terralith:blooming_valley"], "weight": 1, "min-group": 2, "max-group": 4, "max-nearby": 5},
+  {"mob": "toms_mobs:budgie_light_green", "biomes": ["#c:is_plains", "#c:is_savanna", "terralith:yellowstone"], "weight": 2, "min-group": 2, "max-group": 4, "max-nearby": 5},
+  {"mob": "toms_mobs:budgie_olive", "biomes": ["#c:is_savanna", "#c:is_badlands", "terralith:arid_highlands"], "weight": 1, "min-group": 2, "max-group": 4, "max-nearby": 5},
+  {"mob": "toms_mobs:budgie_sky_blue", "biomes": ["#c:is_plains", "minecraft:meadow", "terralith:blooming_valley"], "weight": 2, "min-group": 2, "max-group": 4, "max-nearby": 5},
+  {"mob": "toms_mobs:budgie_white", "biomes": ["#c:is_plains", "minecraft:meadow", "minecraft:cherry_grove", "terralith:lavender_valley"], "weight": 1, "min-group": 2, "max-group": 4, "max-nearby": 5},
+  {"mob": "toms_mobs:budgie_yellow", "biomes": ["#c:is_plains", "#c:is_savanna", "minecraft:meadow", "terralith:yellowstone"], "weight": 2, "min-group": 2, "max-group": 4, "max-nearby": 5},
+
+  {"mob": "toms_mobs:toucan_toco", "biomes": ["#c:is_jungle", "minecraft:bamboo_jungle", "terralith:tropical_jungle", "terralith:amethyst_rainforest"], "weight": 2, "min-group": 1, "max-group": 2, "max-nearby": 3},
+  {"mob": "toms_mobs:toucan_keel_billed", "biomes": ["#c:is_jungle", "minecraft:bamboo_jungle", "terralith:tropical_jungle", "terralith:rocky_jungle"], "weight": 2, "min-group": 1, "max-group": 2, "max-nearby": 3},
+  {"mob": "toms_mobs:toucan_channel_billed", "biomes": ["#c:is_jungle", "terralith:tropical_jungle", "terralith:amethyst_rainforest", "terralith:cloud_forest"], "weight": 1, "min-group": 1, "max-group": 2, "max-nearby": 3},
+
+  {"mob": "toms_mobs:goose_canada", "biomes": ["#c:is_plains", "#c:is_taiga", "minecraft:river", "minecraft:meadow", "terralith:blooming_valley", "terralith:shield", "terralith:siberian_taiga"], "weight": 2, "min-group": 2, "max-group": 4, "max-nearby": 4},
+  {"mob": "toms_mobs:goose_white", "biomes": ["#c:is_plains", "minecraft:river", "minecraft:meadow", "terralith:blooming_valley", "terralith:lavender_valley", "terralith:lush_valley"], "weight": 1, "min-group": 1, "max-group": 3, "max-nearby": 3},
+
   {"mob": "toms_mobs:ice_penguin", "biomes": ["minecraft:snowy_plains", "minecraft:snowy_beach", "minecraft:frozen_ocean", "minecraft:ice_spikes", "terralith:alpine_highlands", "terralith:frozen_cliffs", "terralith:glacial_chasm", "terralith:snowy_badlands"], "weight": 1, "min-group": 1, "max-group": 3, "max-nearby": 4, "baby": "toms_mobs:ice_penguin_baby", "baby-chance": 0.3},
 
   {"mob": "toms_mobs:sloth_brown", "biomes": ["#c:is_jungle", "minecraft:bamboo_jungle", "minecraft:sparse_jungle", "terralith:tropical_jungle", "terralith:rocky_jungle", "terralith:amethyst_rainforest", "terralith:cloud_forest"], "weight": 2, "min-group": 1, "max-group": 1, "max-nearby": 2},

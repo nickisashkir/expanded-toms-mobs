@@ -19,6 +19,10 @@ import de.tomalbrc.toms_mobs.entity.passive.sloth.*;
 import de.tomalbrc.toms_mobs.entity.passive.koi.*;
 import de.tomalbrc.toms_mobs.entity.passive.npc.*;
 import de.tomalbrc.toms_mobs.entity.passive.winterbird.*;
+import de.tomalbrc.toms_mobs.entity.passive.rat.*;
+import de.tomalbrc.toms_mobs.entity.passive.budgie.*;
+import de.tomalbrc.toms_mobs.entity.passive.toucan.*;
+import de.tomalbrc.toms_mobs.entity.passive.goose.*;
 import de.tomalbrc.toms_mobs.item.TexturedPolymerSpawnEggItem;
 import de.tomalbrc.toms_mobs.item.VanillaPolymerSpawnEggItem;
 import de.tomalbrc.toms_mobs.util.BiomeHelper;
@@ -216,6 +220,33 @@ public class MobRegistry {
     public static final EntityType<@NotNull BlueTit> BLUE_TIT = register(BlueTit.ID, FabricEntityType.Builder.createMob(BlueTit::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractWinterBird::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.3f));
     public static final EntityType<@NotNull Partridge> PARTRIDGE = register(Partridge.ID, FabricEntityType.Builder.createMob(Partridge::new, MobCategory.CREATURE, x -> x.defaultAttributes(Partridge::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.4f, 0.4f));
     public static final EntityType<@NotNull Raven> RAVEN = register(Raven.ID, FabricEntityType.Builder.createMob(Raven::new, MobCategory.CREATURE, x -> x.defaultAttributes(Raven::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.6f, 0.7f));
+
+    public static final EntityType<@NotNull Beaver> BEAVER = register(Beaver.ID, FabricEntityType.Builder.createMob(Beaver::new, MobCategory.CREATURE, x -> x.defaultAttributes(Beaver::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.7f, 0.5f));
+    public static final EntityType<@NotNull Jerboa> JERBOA = register(Jerboa.ID, FabricEntityType.Builder.createMob(Jerboa::new, MobCategory.CREATURE, x -> x.defaultAttributes(Jerboa::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.35f, 0.25f));
+    public static final EntityType<@NotNull Koala> KOALA = register(Koala.ID, FabricEntityType.Builder.createMob(Koala::new, MobCategory.CREATURE, x -> x.defaultAttributes(Koala::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.6f, 0.7f));
+    public static final EntityType<@NotNull SnappingTurtle> SNAPPING_TURTLE = register(SnappingTurtle.ID, FabricEntityType.Builder.createMob(SnappingTurtle::new, MobCategory.CREATURE, x -> x.defaultAttributes(SnappingTurtle::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.9f, 0.45f));
+
+    public static final EntityType<@NotNull RatAlbino> RAT_ALBINO = register(RatAlbino.ID, FabricEntityType.Builder.createMob(RatAlbino::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractRat::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.25f));
+    public static final EntityType<@NotNull RatBrown> RAT_BROWN = register(RatBrown.ID, FabricEntityType.Builder.createMob(RatBrown::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractRat::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.25f));
+    public static final EntityType<@NotNull RatGray> RAT_GRAY = register(RatGray.ID, FabricEntityType.Builder.createMob(RatGray::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractRat::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.25f));
+
+    public static final EntityType<@NotNull BudgieBlueSpangle> BUDGIE_BLUE_SPANGLE = register(BudgieBlueSpangle.ID, FabricEntityType.Builder.createMob(BudgieBlueSpangle::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+    public static final EntityType<@NotNull BudgieCobalt> BUDGIE_COBALT = register(BudgieCobalt.ID, FabricEntityType.Builder.createMob(BudgieCobalt::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+    public static final EntityType<@NotNull BudgieGray> BUDGIE_GRAY = register(BudgieGray.ID, FabricEntityType.Builder.createMob(BudgieGray::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+    public static final EntityType<@NotNull BudgieGreen> BUDGIE_GREEN = register(BudgieGreen.ID, FabricEntityType.Builder.createMob(BudgieGreen::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+    public static final EntityType<@NotNull BudgieGreenSpangle> BUDGIE_GREEN_SPANGLE = register(BudgieGreenSpangle.ID, FabricEntityType.Builder.createMob(BudgieGreenSpangle::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+    public static final EntityType<@NotNull BudgieLightGreen> BUDGIE_LIGHT_GREEN = register(BudgieLightGreen.ID, FabricEntityType.Builder.createMob(BudgieLightGreen::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+    public static final EntityType<@NotNull BudgieOlive> BUDGIE_OLIVE = register(BudgieOlive.ID, FabricEntityType.Builder.createMob(BudgieOlive::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+    public static final EntityType<@NotNull BudgieSkyBlue> BUDGIE_SKY_BLUE = register(BudgieSkyBlue.ID, FabricEntityType.Builder.createMob(BudgieSkyBlue::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+    public static final EntityType<@NotNull BudgieWhite> BUDGIE_WHITE = register(BudgieWhite.ID, FabricEntityType.Builder.createMob(BudgieWhite::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+    public static final EntityType<@NotNull BudgieYellow> BUDGIE_YELLOW = register(BudgieYellow.ID, FabricEntityType.Builder.createMob(BudgieYellow::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractBudgie::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.3f, 0.35f));
+
+    public static final EntityType<@NotNull ToucanToco> TOUCAN_TOCO = register(ToucanToco.ID, FabricEntityType.Builder.createMob(ToucanToco::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractToucan::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.5f, 0.6f));
+    public static final EntityType<@NotNull ToucanKeelBilled> TOUCAN_KEEL_BILLED = register(ToucanKeelBilled.ID, FabricEntityType.Builder.createMob(ToucanKeelBilled::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractToucan::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.5f, 0.6f));
+    public static final EntityType<@NotNull ToucanChannelBilled> TOUCAN_CHANNEL_BILLED = register(ToucanChannelBilled.ID, FabricEntityType.Builder.createMob(ToucanChannelBilled::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractToucan::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.5f, 0.6f));
+
+    public static final EntityType<@NotNull GooseCanada> GOOSE_CANADA = register(GooseCanada.ID, FabricEntityType.Builder.createMob(GooseCanada::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractGoose::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.6f, 1.1f));
+    public static final EntityType<@NotNull GooseWhite> GOOSE_WHITE = register(GooseWhite.ID, FabricEntityType.Builder.createMob(GooseWhite::new, MobCategory.CREATURE, x -> x.defaultAttributes(AbstractGoose::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.6f, 1.1f));
     public static final EntityType<@NotNull Hedgehog> HEDGEHOG = register(Hedgehog.ID, FabricEntityType.Builder.createMob(Hedgehog::new, MobCategory.CREATURE, x -> x.defaultAttributes(Hedgehog::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.4f, 0.3f));
     public static final EntityType<@NotNull HedgehogBaby> HEDGEHOG_BABY = register(HedgehogBaby.ID, FabricEntityType.Builder.createMob(HedgehogBaby::new, MobCategory.CREATURE, x -> x.defaultAttributes(HedgehogBaby::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(0.25f, 0.2f));
     public static final EntityType<@NotNull Reindeer> REINDEER = register(Reindeer.ID, FabricEntityType.Builder.createMob(Reindeer::new, MobCategory.CREATURE, x -> x.defaultAttributes(Reindeer::createAttributes).spawnPlacement(SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpawnRules::checkNaturalSpawnRules)).sized(1.0f, 1.4f));
@@ -435,6 +466,28 @@ public class MobRegistry {
         addSpawnEgg(BLUE_TIT, Items.PARROT_SPAWN_EGG);
         addSpawnEgg(PARTRIDGE, Items.CHICKEN_SPAWN_EGG);
         addSpawnEgg(RAVEN, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BEAVER, Items.RABBIT_SPAWN_EGG);
+        addSpawnEgg(JERBOA, Items.RABBIT_SPAWN_EGG);
+        addSpawnEgg(KOALA, Items.PANDA_SPAWN_EGG);
+        addSpawnEgg(SNAPPING_TURTLE, Items.TURTLE_SPAWN_EGG);
+        addSpawnEgg(RAT_ALBINO, Items.RABBIT_SPAWN_EGG);
+        addSpawnEgg(RAT_BROWN, Items.RABBIT_SPAWN_EGG);
+        addSpawnEgg(RAT_GRAY, Items.RABBIT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_BLUE_SPANGLE, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_COBALT, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_GRAY, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_GREEN, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_GREEN_SPANGLE, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_LIGHT_GREEN, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_OLIVE, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_SKY_BLUE, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_WHITE, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(BUDGIE_YELLOW, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(TOUCAN_TOCO, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(TOUCAN_KEEL_BILLED, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(TOUCAN_CHANNEL_BILLED, Items.PARROT_SPAWN_EGG);
+        addSpawnEgg(GOOSE_CANADA, Items.CHICKEN_SPAWN_EGG);
+        addSpawnEgg(GOOSE_WHITE, Items.CHICKEN_SPAWN_EGG);
         addSpawnEgg(HEDGEHOG, Items.RABBIT_SPAWN_EGG);
         addSpawnEgg(HEDGEHOG_BABY, Items.RABBIT_SPAWN_EGG);
         addSpawnEgg(REINDEER, Items.COW_SPAWN_EGG);

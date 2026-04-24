@@ -50,8 +50,12 @@ public class BabyGrowthHelper {
 
         adult.snapTo(baby.getX(), baby.getY(), baby.getZ(), baby.getYRot(), baby.getXRot());
         adult.setYHeadRot(baby.getYHeadRot());
-        if (baby.getCustomName() != null) {
-            adult.setCustomName(baby.getCustomName());
+        // Only carry over a custom name if it was player-assigned (not the auto-species default).
+        // The baby auto-sets its species description as a custom name, so we skip that case so the
+        // adult can auto-set its own species name instead of inheriting "Baby X".
+        net.minecraft.network.chat.Component babyName = baby.getCustomName();
+        if (babyName != null && !babyName.equals(baby.getType().getDescription())) {
+            adult.setCustomName(babyName);
             adult.setCustomNameVisible(baby.isCustomNameVisible());
         }
         serverLevel.addFreshEntity(adult);
