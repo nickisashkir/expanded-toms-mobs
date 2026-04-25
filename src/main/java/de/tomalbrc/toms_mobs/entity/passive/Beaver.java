@@ -30,7 +30,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.PathType;
-import net.tslat.smartbrainlib.api.core.navigation.SmoothWaterBoundPathNavigation;
+import aqario.fowlplay.common.entity.ai.navigation.AmphibiousNavigation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -142,7 +142,7 @@ public class Beaver extends Animal implements AnimatedEntity, de.tomalbrc.toms_m
     }
 
     @Override
-    protected @NotNull PathNavigation createNavigation(@NotNull Level level) { return new SmoothWaterBoundPathNavigation(this, level); }
+    protected @NotNull PathNavigation createNavigation(@NotNull Level level) { return new AmphibiousNavigation(this, level); }
 
     /**
      * Beavers hunt for birch logs (NOT stripped, NOT planks) within a small radius.
@@ -240,14 +240,21 @@ public class Beaver extends Animal implements AnimatedEntity, de.tomalbrc.toms_m
             BlockPos stump = null;
             for (BlockPos p : logs) if (stump == null || p.getY() < stump.getY()) stump = p;
 
-            for (BlockPos p : tree) {
-                net.minecraft.world.level.block.state.BlockState st = sl.getBlockState(p);
+            // Capture every block state first, then wipe them all before spawning falling
+            // entities. Otherwise each falling block lands on the next log below and settles
+            // as a block, making the tree look unchanged.
+            java.util.Map<BlockPos, net.minecraft.world.level.block.state.BlockState> states = new java.util.HashMap<>();
+            for (BlockPos p : tree) states.put(p, sl.getBlockState(p));
+            for (BlockPos p : tree) sl.setBlock(p, Blocks.AIR.defaultBlockState(), 3);
+
+            for (var entry : states.entrySet()) {
+                BlockPos p = entry.getKey();
                 net.minecraft.world.entity.item.FallingBlockEntity fbe =
-                        net.minecraft.world.entity.item.FallingBlockEntity.fall(sl, p, st);
-                fbe.setDeltaMovement(fbe.getDeltaMovement().add(
-                        (beaver.getRandom().nextDouble() - 0.5) * 0.3,
-                        0.15,
-                        (beaver.getRandom().nextDouble() - 0.5) * 0.3));
+                        net.minecraft.world.entity.item.FallingBlockEntity.fall(sl, p, entry.getValue());
+                fbe.setDeltaMovement(
+                        (beaver.getRandom().nextDouble() - 0.5) * 0.35,
+                        0.2,
+                        (beaver.getRandom().nextDouble() - 0.5) * 0.35);
             }
 
             if (stump != null) {
