@@ -112,6 +112,26 @@ public class Beaver extends Animal implements AnimatedEntity, de.tomalbrc.toms_m
         return level.getFluidState(pos).is(net.minecraft.tags.FluidTags.WATER) ? 1.0F : level.getPathfindingCostFromLightLevels(pos);
     }
 
+    // Beavers can hold their breath indefinitely underwater - real ones can go 15 min,
+    // so "infinite" is close enough for gameplay and stops them panicking to the surface.
+    @Override public boolean canBreatheUnderwater() { return true; }
+
+    // Travel handling: swim smoothly in water, normal on land
+    @Override
+    public void travel(@NotNull net.minecraft.world.phys.Vec3 movementInput) {
+        if (this.isEffectiveAi() && this.isInWater()) {
+            this.moveRelative(this.getSpeed(), movementInput);
+            this.move(net.minecraft.world.entity.MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
+            // Neutralize gravity underwater so they don't sink to the bottom
+            if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.005, 0.0));
+            }
+        } else {
+            super.travel(movementInput);
+        }
+    }
+
     @Override public boolean isFood(ItemStack i) { return i.is(Items.APPLE) || i.is(Items.SWEET_BERRIES); }
     @Nullable @Override public AgeableMob getBreedOffspring(@NotNull ServerLevel l, @NotNull AgeableMob m) { return null; }
     @Override protected SoundEvent getHurtSound(@NotNull DamageSource d) { return SoundEvents.FOX_HURT; }
